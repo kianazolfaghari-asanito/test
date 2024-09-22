@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+    <style>
+      /* The secret sauce that enables gradient rotation. NOTE: does not work in all browsers. https://caniuse.com/?search=%40property */
+      @property --border-angle-1 {
+        syntax: "<angle>";
+        inherits: true;
+        initial-value: 0deg;
+      }
+
+      /* sRGB color. */
+      :root {
+        --bright-blue: rgb(0, 100, 255);
+        --bright-green: rgb(0, 255, 0);
+        --bright-red: rgb(255, 0, 0);
+        --background: black;
+        --foreground: white;
+        --border-size: 2px;
+        --border-radius: 0.75em;
+        --secondary-background: #414141;
+      }
+
+      @keyframes rotateBackground {
+        to {
+          --border-angle-1: 360deg;
+        }
+      }
+
+      body {
+        background: var(--background);
+        color: var(--foreground);
+        min-height: 100dvh;
+        display: grid;
+        place-content: center;
+        margin: 0;
+        font-family: "Aspekta";
+      }
+
+      button {
+        --border-angle-1: 0deg;
+        color: inherit;
+        font-size: calc(0.8rem + 4vmin);
+        font-family: inherit;
+        border: 0;
+        padding: var(--border-size);
+        display: flex;
+        width: max-content;
+        transition: transform 200ms;
+        border-radius: var(--border-radius);
+        background-color: var(--secondary-background);
+        background-image: conic-gradient(
+          from var(--border-angle-1) at 50% 50%,
+          transparent 6%,
+          var(--bright-blue) 12%,
+          transparent 18%,
+          transparent
+        );
+        animation: rotateBackground 8s linear infinite;
+      }
+
+      /* Change this background to transparent to see how the gradient works */
+      button div {
+        padding: 1em 1.5em;
+        color: var(--foreground);
+        background: var(--background);
+        transition: background-color 200ms;
+        border: 2px solid var(--border-color);
+        border-radius: calc(var(--border-radius) - var(--border-size));
+      }
+
+      button:hover {
+        transform: scale(1.1);
+      }
+      button div:hover {
+        background: var(--secondary-background);
+      }
+
+
+      @font-face {
+        font-family: "Aspekta";
+        font-weight: normal;
+        src: url("https://assets.codepen.io/240751/Aspekta-300.woff2")
+          format("woff2");
+      }
+    </style>
+  </head>
+  <body>
+    <button>
+      <div>A beautiful button</div>
+    </button>
+  </body>
+</html>
